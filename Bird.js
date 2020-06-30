@@ -1,18 +1,29 @@
-class Bird extends BaseClass {
+class Bird  {
   constructor(x,y){
-    super(x,y,50,50);
+    var options = {
+      'restitution':0.5,
+     'frictionAir':0.001
+      }
+  this.body = Bodies.circle(x, y, 25, options);
+  Matter.Body.setMass(this.body, this.body.mass * 6);
+  World.add(world,this.body);
+ 
     this.image = loadImage("sprites/bird.png");
     this.smokeImage = loadImage("sprites/smoke.png");
     this.trajectory =[];
-  }
+    }
 
   display() {
-    //this.body.position.x = mouseX;
-    //this.body.position.y = mouseY;
 
-    super.display();
-
-    if(this.body.velocity.x > 10 && this.body.position.x > 200){
+    var angle = this.body.angle;
+    push();
+    translate(this.body.position.x, this.body.position.y);
+    rotate(angle);
+    imageMode(CENTER);
+    image(this.image, 0, 0, 50, 50);
+    pop();
+  
+    if(this.body.velocity.x > 10 && this.body.position.x > 200 &&!mouseIsPressed){
       var position = [this.body.position.x, this.body.position.y];
       this.trajectory.push(position);
     }
